@@ -37,7 +37,7 @@ app.get('/search', function(req, res) {
 
 app.post('/search', function(req, res) {
   console.log('GENRE NAME', req.body.genre);
-  axios.post(`https://api.themoviedb.org/3/discover/movie?api_key=${token}&sort_by=popularity.asc&with_genres=${req.body.genre.name}`)
+  axios.post(`https://api.themoviedb.org/3/discover/movie?api_key=${token}&sort_by=popularity.asc&with_genres=${req.body.genre}`)
        .then((response) => {
          res.send(response.data.results);
        })
@@ -81,7 +81,7 @@ app.post('/save', function(req, res) {
 });
 
 app.post('/delete', function(req, res) {
-  db.deleteFavorite([req.body.movie.id], (err, results) => {
+  db.deleteFavorite([req.body.movie.original_title], (err, results) => {
     if (err) {
       console.error(err);
     } else {

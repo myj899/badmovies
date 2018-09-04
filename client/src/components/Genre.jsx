@@ -7,7 +7,10 @@ class Genre extends React.Component {
 
   render() {
     return (
-      <option value={this.props.genre.id}>{this.props.genre.name}</option>
+      <option value={this.props.genre.id}
+              onclick={this.props.changeGenre(this.value)}>
+        {this.props.genre.name}
+      </option>
     )
   }
 }

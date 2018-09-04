@@ -41,11 +41,13 @@ class Search extends React.Component {
         {/* How can you tell which option has been selected from here? */}
 
         <select>
-          {this.state.genres.map((genre) => (<Genre genre={genre}/>))}
+          {this.state.genres.map((genre) => (
+            <Genre genre={genre}
+                   changeGenre={this.props.changeGenre}/>))}
         </select>
         <br/><br/>
 
-        <button>Search</button>
+        <button onClick={this.props.handleSearch()}>Search</button>
 
       </div>
     );

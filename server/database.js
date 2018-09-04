@@ -24,7 +24,7 @@ const saveFavorite = function(params, callback) {
 const deleteFavorite = function(params, callback) {
   // delete a movie from favorites in the database
   var queryStr = `DELETE FROM favorites
-                  WHERE id = ?`;
+                  WHERE title = ?`;
   connection.query(queryStr, params, function(err, results) {
     callback(err, results);
   })

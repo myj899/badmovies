@@ -19,6 +19,7 @@ class App extends React.Component {
     this.deleteMovie = this.deleteMovie.bind(this);
     this.onClick = this.onClick.bind(this);
     this.changeGenre = this.changeGenre.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     // you might have to do something important here!
   }
 
@@ -27,7 +28,7 @@ class App extends React.Component {
   }
 
   getMovies() {
-    if (this.state.currentGenre !== null) {
+    if (this.state.currentGenre) {
       axios.post('/search', {genre: this.state.currentGenre})
       .then((movies) => {
         this.setState({
@@ -54,16 +55,16 @@ class App extends React.Component {
 
   saveMovie(movie) {
     console.log('WHY AM I NOT TRIGGERED HERE')
-    axios.post('/save', {movie: movie})
-      .then((movies) => {
-        // console.log('I AM FUCKING TRIGGERED')
-        this.setState({
-          favorites: movies.data
-        })
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+    // axios.post('/save', {movie: movie})
+    //   .then((movies) => {
+    //     // console.log('I AM FUCKING TRIGGERED')
+    //     this.setState({
+    //       favorites: movies.data
+    //     })
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   })
   }
 
   deleteMovie(movie) {
@@ -97,13 +98,23 @@ class App extends React.Component {
   }
 
   changeGenre(genre) {
+    console.log('changeGenre triggered', genre)
     this.setState({
       currentGenre: genre
     })
   }
 
   handleSearch(evt) {
-    axios.post('/search', {})
+    console.log('SEARCH GETTING TRIGGERED...')
+    axios.post('/search', {genre: this.state.currentGenre})
+         .then((movies) => {
+           this.setState({
+             movies: movies
+           })
+         .catch((err) => {
+           console.error(err);
+         })
+         })
   }
 
   render () {
@@ -114,7 +125,8 @@ class App extends React.Component {
         <div className="main">
           <Search swapFavorites={this.swapFavorites} 
                   showFaves={this.state.showFaves}
-                  changeGenre={this.changeGenre}/>
+                  changeGenre={this.changeGenre}
+                  handleSearch={this.handleSearch}/>
           <Movies movies={this.state.showFaves ? this.state.favorites : this.state.movies} 
                   showFaves={this.state.showFaves}
                   click={this.onClick}/>
